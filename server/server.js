@@ -1,8 +1,7 @@
 import express, {json} from 'express';
 import connectDB from "./src/config/connectDb.js";
 import cors from 'cors';
-import dotenv from "dotenv"
-import mongoose from "mongoose";
+import dotenv from "dotenv";
 import produits from './src/routes/produit.route.js';
 let app = express();
 dotenv.config();
@@ -15,7 +14,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 app.use(json());
-mongoose.set("strictQuery",false)
 app.use('/produit',produits)
 connectDB()
 

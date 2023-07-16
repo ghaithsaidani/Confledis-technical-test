@@ -23,6 +23,35 @@ class ProduitController{
             return res.status(400).json({success:false,msg:"echec de recuperation des produits"})
         }
     }
+
+    async getOne(req,res){
+        try{
+            const produit=await Produit.findById(req.params.id);
+            return res.json({success:true,produit})
+        }catch(error){
+            return res.status(400).json({success:false,msg:"echec de recuperation du produit"})
+        }
+    }
+
+    async update(req,res){
+        try {
+            const product=await Produit.findById(req.params.id).exec();
+            product.set(req.body);
+            await product.save();
+            return res.json({ success: true, msg: 'mise a jour du produit avec succes' });
+        } catch (error) {
+            res.status(400).json({ success: false, msg: "echec de mise a jour du produit" });
+        }
+    }
+
+    async delete(req,res){
+        try {
+            await Produit.findByIdAndDelete(req.params.id);
+            return res.json({ success: true, msg: 'suppression du produit avec succes' });
+        } catch (error) {
+            res.status(400).json({ success: false, msg: "echec de suppression du produit" });
+        }
+    }
 }
 
 
