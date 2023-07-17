@@ -12,6 +12,9 @@ const Produit=new mongoose.Schema({
         quantite:{
             type:Number
         },
+        img:{
+            type:String
+        }
     },
     {collection : "produits"},
 )

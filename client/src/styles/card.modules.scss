@@ -1,34 +1,43 @@
 @import "variables.modules";
 
-.my-card{
-  padding: 2rem 1rem;
+.my-card {
+  padding:1rem;
   background-color: #fff;
   border-radius: 30px;
-  //height: 500px;
-  img{
+  box-shadow: 0px 4px 20px 0px rgba(139, 139, 139, 0.10);
+  //height: 400px;
+  img {
     width: 100%;
     border-radius: 30px;
-    /*height: 350px;*/
   }
-  .card-name,.card-price{
+
+  .card-name, .card-price {
     font-family: Inter;
     font-weight: bold;
   }
-  .card-name{
-    font-size: 1.6rem;
-    margin-top: 0.5rem;
-    color: #282828;
+
+  .card-name-settings {
+    margin-top: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .card-name {
+      font-size: 1.5rem;
+      color: #282828;
+    }
   }
-  .price-quantity{
+
+  .price-quantity {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 2rem;
-    .card-price{
-      font-size: 2rem;
+    .card-price {
+      font-size: 1.5rem;
       color: #4A7DFF;
     }
-    .card-quantity{
+
+    .card-quantity {
       font-size: 1.2rem;
       font-family: "Kadwa";
       color: #ABABAB;

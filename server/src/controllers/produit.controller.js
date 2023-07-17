@@ -1,13 +1,19 @@
 import Produit from "../models/Produit.js";
+import * as fs from "fs";
 
 
 
 class ProduitController{
     async create(req,res){
         try{
-            const produit=new Produit({...req.body})
-            await Produit(produit).save();
-            return res.json({success:true,msg:'produit ajouté avec succés'})
+            let product=new Produit({
+                nom:req.body.nom,
+                prix:req.body.prix,
+                quantite:req.body.quantite,
+                img:req.file.filename
+            })
+            await product.save()
+            return res.json({ success: true, msg: 'produit ajouté avec succes' });
         }
         catch(error){
             return res.status(400).json({success:false,msg:"echec d'ajout du produit"})
@@ -52,44 +58,36 @@ class ProduitController{
             res.status(400).json({ success: false, msg: "echec de suppression du produit" });
         }
     }
+
+    async uploadImage(req,res){
+        /*try{
+            const produits=await Produit.find();
+            return res.json({success:true,req:'hey',produits})
+        }
+        catch(error){
+            return res.status(400).json({success:false,msg:"echec de recuperation des produits"})
+        }*/
+        /*return {msg:'bonjour'}*/
+        /*let img=fs.readFileSync(req.files.path)
+        let encode_img= img.toString('base64')
+        let finalImg={
+            filename : req.files.originalname,
+            contentType : req.files.mimetype,
+            imageBase64 : encode_img
+        }*/
+        let product=new Produit({
+            nom:req.body.nom,
+            prix:req.body.prix,
+            quantite:req.body.quantite,
+            img:req.file.filename
+        })
+        await product.save()
+        return res.json({ success: true, msg: 'mise a jour du produit avec succes' });
+    }
+
+
 }
 
 
 export default new ProduitController;
 
-
-/* export default ajouterProduit = (req, res) => {
-  //let { nom,prix,quantite } = req.body;
-
-  Produit.create(req.body)
-    .then((prod) => {
-      res.json(prod);
-    })
-    .catch((err) => res.json(err));
-  /* try {
-        let produit=await Produit.findOne({nom})
-        if(produit){
-            return next(new ErrorResponse('Numero Terrain Existe', 400))
-        }
-        else{
-            let produit = new Produit();
-            produit.nom = nom;
-            produit.prix=prix;
-            produit.quantite=quantite
-            produit.save((err, prd) => {
-                if (err) {
-                    return res.status(400).send({
-                        message: err,
-                    });
-                } else {
-
-                    return res.status(201).send({
-                        success: true,
-                    });
-                }
-            });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    } 
-}; */

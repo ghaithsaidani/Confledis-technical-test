@@ -10,11 +10,14 @@ const corsOptions = {
     origin: allowedDomains,
     credentials: true
 };
-
-
 app.use(cors(corsOptions))
-app.use(json());
+app.use(json())
+/*app.use(express/!*.urlencoded({
+    extended:false,
+})*!/);*/
+
 app.use('/produit',produits)
+
 connectDB()
 
 
