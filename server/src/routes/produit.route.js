@@ -19,6 +19,7 @@ const upload = multer({ storage: storage });
 router.post('/ajouter',upload.single("img"),ProduitController.create)
 router.get('/getall',ProduitController.getAll)
 router.get('/getone/:id',ProduitController.getOne)
-router.put('/update/:id',ProduitController.update)
+router.put('/update/:id',upload.single("img"),ProduitController.update)
 router.delete('/delete/:id',ProduitController.delete)
+router.get('/recherche/:nom',ProduitController.search)
 export default router;

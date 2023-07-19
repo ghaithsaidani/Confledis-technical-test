@@ -1,27 +1,25 @@
+import Config from "./Config.tsx";
 
-import axios from "axios";
-import {config} from "./Config.tsx";
-
-export const getAll = async () : Promise<any> => {
-    return await axios({
-        ...config,
-        url:`${config.baseUrl}/getall`,
-        method:"get"
-    })
+export const getAll = () : Promise<any> => {
+    return Config.get('/getall')
 }
 
-export const Delete = async (id:string) : Promise<any> => {
-    return await axios({
-        ...config,
-        url:`${config.baseUrl}/delete/${id}`,
-        method:"delete"
-    })
+export const add = (my_card:FormData)  =>{
+    return Config.post( '/ajouter',my_card)
 }
 
-export const getOne = async (id:string) : Promise<any> => {
-    return await axios({
-        ...config,
-        url:`${config.baseUrl}/getone/${id}`,
-        method:"get"
-    })
+export const modify = (id:string,my_card:FormData)  =>{
+    return Config.put( `/update/${id}`,my_card)
+}
+
+export const search = (nom:string)  =>{
+    return Config.get( `/recherche/${encodeURIComponent(nom.trim())}`)
+}
+
+export const Delete =(id:string) : Promise<any> => {
+    return Config.delete(`/delete/${id}`)
+}
+
+export const getOne = (id:string) : Promise<any> => {
+    return Config.get(`/getone/${id}`)
 }

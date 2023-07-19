@@ -1,16 +1,34 @@
-import Card from "../../models/Card.tsx";
 import '../../styles/card.modules.scss'
-import {Fade, IconButton, ListItemIcon, Menu, MenuItem, Typography} from "@mui/material";
-import React from "react";
+import {
+    Button,
+    Dialog, DialogActions,
+    DialogContent, DialogContentText,
+    DialogTitle,
+    Fade,
+    IconButton,
+    ListItemIcon,
+    Menu,
+    MenuItem,
+    Typography, useMediaQuery, useTheme
+} from "@mui/material";
+import React, { useState} from "react";
 import {FiMoreVertical} from "react-icons/fi";
-import {Delete, getOne} from "../../services/produit.service.tsx";
+import {Delete, getAll} from "../../services/produit.service.tsx";
 import {AiOutlineDelete, AiTwotoneEdit} from "react-icons/ai";
-import {BsInfoCircle} from "react-icons/bs";
+import {Transition} from "../Transition.tsx";
+import {ModifyProduct} from "../modify-product/ModifyProduct.tsx";
+import {LoadingButton} from "@mui/lab";
 
-export const MyCard = (props: Card) => {
+
+export const MyCard = (props: any) => {
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const [openDeleteDialog, setOpenDialog] = React.useState(false);
+    const [openModify, setOpenModify] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -18,17 +36,38 @@ export const MyCard = (props: Card) => {
         setAnchorEl(null);
     };
 
-    const getProdByID = (_id:string) =>{
-        getOne(_id).then(res=>{
-            console.log(res.data.produit)
+    const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+        handleClose()
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+
+    const handleOpenModify = () => {
+        setOpenModify(true);
+    };
+
+    const handleCloseModify = () => {
+        setOpenModify(false);
+    };
+
+    const deleteById = (_id: string) => {
+        setLoading(true)
+        Delete(_id).then(() => {
+            getAll().then((response) => {
+                props.setProduits(response.data.produits);
+                setLoading(false)
+                handleCloseDialog()
+            }).catch((error) => {
+                console.log(error);
+            })
         })
     }
 
-    const deleteById = (_id:string) => {
-        Delete(_id).then(res=>{
-            console.log(res.data.msg)
-        })
-    }
+
     return (
         <div className={"my-card"}>
             <img src={props.img} alt={props.nom}/>
@@ -53,17 +92,14 @@ export const MyCard = (props: Card) => {
                     onClose={handleClose}
                     TransitionComponent={Fade}
                 >
-                    <MenuItem onClick={()=>getProdByID(props._id)}>
-                        <ListItemIcon>
-                            <BsInfoCircle/>
-                        </ListItemIcon>
-                        <Typography variant="inherit">Voir details</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}><ListItemIcon>
+                    <MenuItem onClick={() => {
+                        handleClose()
+                        handleOpenModify()
+                    }}><ListItemIcon>
                         <AiTwotoneEdit/>
                     </ListItemIcon>
                         <Typography variant="inherit">Modifier</Typography></MenuItem>
-                    <MenuItem onClick={()=>deleteById(props._id)}><ListItemIcon>
+                    <MenuItem onClick={handleClickOpenDialog}><ListItemIcon>
                         <AiOutlineDelete/>
                     </ListItemIcon>
                         <Typography variant="inherit">Supprimer</Typography></MenuItem>
@@ -73,6 +109,39 @@ export const MyCard = (props: Card) => {
                 <h2 className={"card-price"}>£{props.prix}</h2>
                 <h5 className={"card-quantity"}>{props.quantite}</h5>
             </div>
+            <Dialog
+                fullScreen={fullScreen}
+                open={openDeleteDialog}
+                TransitionComponent={Transition}
+                onClose={handleCloseDialog}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogTitle id="responsive-dialog-title">
+                    {"Suppression du produit?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Voulez-vous supprimer {props.nom} de la liste des produit ?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus variant={"outlined"} onClick={handleCloseDialog}>
+                        Annuler
+                    </Button>
+                    <LoadingButton
+                        disableElevation
+                        loading={loading}
+                        variant="contained"
+                        onClick={() => {
+                            deleteById(props._id)
+                        }}
+                    >
+                        Confirmer
+                    </LoadingButton>
+                </DialogActions>
+            </Dialog>
+            <ModifyProduct open={openModify} _id={props._id} setProduits={props.setProduits}
+                           handleClose={handleCloseModify}/>
         </div>
     )
 }

@@ -1,35 +1,67 @@
-import Card from "../models/Card.tsx";
-import {MyCard} from "../components/product-card/MyCard.tsx";
 import {FaSearch} from "react-icons/fa";
 import {useEffect, useState} from "react";
-import {getAll} from "../services/produit.service.tsx";
-export const Main = () => {
-	const [produits, setProduits] = useState([]);
+import {getAll, search} from "../services/produit.service.tsx";
+import {IconButton} from "@mui/material";
+import {AddProduct} from "../components/add-product/AddProduct.tsx";
+import {MdOutlineLibraryAdd} from "react-icons/md";
+import {CardsSwiper} from "../components/CardsSwiper.tsx";
 
-	useEffect(() => {
-			getAll().then((res) => {
-				//console.log(res.data)
-				setProduits(res.data.produits);
-			}).catch((error) => {
-				console.log(error);
-			});
-		}, [produits]
-	);
-	return (
-		<main>
-			<div className="search">
-				<input type="text" placeholder="Rechercher un produit"/>
-					<button>
-						<FaSearch/>
-					</button>
-			</div>
-			<div className={"cards"}>
-				{
-					produits.map((card:Card)=>(
-						<MyCard key={card._id}  {...card} img={`uploads/${card.img}`}/>
-					))
-				}
-			</div>
-		</main>
-	)
+export const Main = () => {
+    const [produits, setProduits] = useState([]);
+    const [open, setOpen] = useState(false);
+
+
+    const getAllProducts =  () => {
+        getAll().then((response) => {
+            setProduits(response.data.produits);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
+
+
+
+    const [searchRef, setSearchRef] = useState('');
+    const rechercher = (nom:string)=>{
+        search(nom).then((res)=>{
+            setProduits(res.data.produits)
+        })
+    }
+
+    useEffect(() => {
+        searchRef==="" ? getAllProducts() :rechercher(searchRef)
+    }, [searchRef]);
+
+
+    const handleChange = (evt:any) => {
+            const value = evt.target.value;
+            setSearchRef(value);
+    }
+
+    return (
+        <main>
+            <div className={"search-add"}>
+                <div className="search">
+                    <input type="text" id={"search"} name={"search"} placeholder="Rechercher un produit" onChange={handleChange} value={searchRef} />
+                    <button>
+                        <FaSearch/>
+                    </button>
+                </div>
+                <IconButton onClick={handleClickOpen}>
+                    <MdOutlineLibraryAdd/>
+                </IconButton>
+            </div>
+            <CardsSwiper products={produits} setProduits={setProduits}/>
+            <AddProduct open={open} setProduits={setProduits} handleClose={handleClose}/>
+        </main>
+    )
 }

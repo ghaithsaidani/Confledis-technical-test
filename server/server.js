@@ -12,9 +12,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions))
 app.use(json())
-/*app.use(express/!*.urlencoded({
-    extended:false,
-})*!/);*/
 
 app.use('/produit',produits)
 

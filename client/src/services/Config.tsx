@@ -1,12 +1,9 @@
-interface Params {
-    baseUrl: string
-    headers : any
-}
-const config : Params = {
-    baseUrl: "http://localhost:8000/produit",
-    headers: {
-        "Content-type": "application/json"
-    }
-};
+import axios from "axios";
 
-export {config}
+export default axios.create({
+    baseURL: "http://localhost:8000/produit",
+    headers: {
+        "Content-type": "application/json",
+        'Content-Type': 'multipart/form-data'
+    }
+});
