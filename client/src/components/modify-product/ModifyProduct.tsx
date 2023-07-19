@@ -17,10 +17,6 @@ export const ModifyProduct = (props: any) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [loading, setLoading] = useState(false);
-
-
-
-
     const [state, setState] = useState({
         nom: "",
         image: "",
@@ -40,10 +36,7 @@ export const ModifyProduct = (props: any) => {
                         prix: prod.prix,
                     }
                 )
-                //console.log(state)
-
             })
-            //console.log(produit)
 
         },
         [state],
@@ -58,25 +51,21 @@ export const ModifyProduct = (props: any) => {
             id: "nom",
             label: "Nom du Produit",
             type: "text",
-            //value:state.nom
         },
         {
             id: "prix",
             label: "Prix",
             type: "number",
-            //value:state.prix
         },
         {
             id: "quantite",
             label: "Quantite",
             type: "number",
-            //value:state.quantite
         },
         {
             id: "image",
             label: "Image",
             type: "file",
-            //value:state.image
         },
     ];
 
@@ -166,7 +155,6 @@ export const ModifyProduct = (props: any) => {
 
                 </form>
             </DialogContent>
-
         </Dialog>
     )
 }

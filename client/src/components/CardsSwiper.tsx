@@ -1,6 +1,5 @@
 import {useMediaQuery, useTheme} from "@mui/material";
 import {Swiper, SwiperSlide} from "swiper/react";
-
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";

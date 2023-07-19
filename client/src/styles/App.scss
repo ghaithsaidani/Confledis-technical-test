@@ -1,5 +1,4 @@
 main {
-  //margin-top: 0;
   padding-inline: 15%;
 
   .search-add {
@@ -7,7 +6,6 @@ main {
     margin: 10px auto;
     justify-content: center;
     align-items: center;
-    //width: fit-content;
     gap: 10px;
     >button{
       width: 50px;
@@ -62,15 +60,5 @@ main {
       bottom: 0px;
     }
 
-  }
-
-
-}
-
-
-@media screen and (min-width: 1124px) {
-  main {
-    .cards {
-    }
   }
 }

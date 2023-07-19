@@ -22,8 +22,7 @@ export const AddProduct = (props: any) => {
         nom: "",
         image: "",
         quantite: 0,
-        prix: 0,
-        imgUrl:""
+        prix: 0
     });
 
     const handleChange = (evt:any) => {
@@ -33,11 +32,11 @@ export const AddProduct = (props: any) => {
                 ...state,
                 [evt.target.name]: value,
             });
+            console.log(state)
         }else{
             setState({
                 ...state,
                 image:evt.target.files[0],
-                imgUrl:URL.createObjectURL(evt.target.files[0])
             });
         }
     };
@@ -50,7 +49,6 @@ export const AddProduct = (props: any) => {
         formData.append('prix', state.prix.toString())
         formData.append('quantite', state.quantite.toString())
         formData.append('img', state.image)
-        //formData.append('imgUrl', URL.createObjectURL(values.img))
 
         add(formData).then(() => {
             setLoading(false)
@@ -131,6 +129,7 @@ export const AddProduct = (props: any) => {
                             loading={loading}
                             variant="contained"
                             type="submit"
+                            disabled={state.nom==="" || state.image==="" || state.quantite===0 || state.prix===0}
                         >
                             Ajouter
                         </LoadingButton>

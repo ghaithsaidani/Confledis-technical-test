@@ -1,5 +1,13 @@
-import Config from "./Config.tsx";
+import axios from "axios";
 
+
+const Config=axios.create({
+    baseURL: "http://localhost:8000/produit",
+    headers: {
+        "Content-type": "application/json",
+        'Content-Type': 'multipart/form-data'
+    }
+});
 export const getAll = () : Promise<any> => {
     return Config.get('/getall')
 }
