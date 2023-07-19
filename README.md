@@ -1,10 +1,10 @@
 # Confledis-technical-test
 
-# Getting Started with Create React App
+# Getting Started with Vite
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [npm create vite@latest]([https://vitejs.dev/]).
 
-## Available Scripts
+## Scripts disponibles
 
 Dans les deux repertoires client et server executez la commande ci dessous:
 
