@@ -12,6 +12,8 @@ Dans les deux repertoires client et server executez la commande ci dessous:
 
 Installer les dépendances pour le client et le serveur
 
+NB: N'oublie pas d'ajouter le lien de votre Base de données dans le fichier .env dans le repertoire server
+
 ### `npm run dev`
 
 Executer le client en mode developpement.\
