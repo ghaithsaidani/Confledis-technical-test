@@ -18,6 +18,7 @@ import {AiOutlineDelete, AiTwotoneEdit} from "react-icons/ai";
 import {Transition} from "../Transition.tsx";
 import {ModifyProduct} from "../modify-product/ModifyProduct.tsx";
 import {LoadingButton} from "@mui/lab";
+import {toast} from "react-toastify";
 
 
 export const MyCard = (props: any) => {
@@ -56,15 +57,18 @@ export const MyCard = (props: any) => {
 
     const deleteById = (_id: string) => {
         setLoading(true)
-        Delete(_id).then(() => {
+        Delete(_id).then((response) => {
+            setLoading(false)
+            toast.success(response.data.msg);
             getAll().then((response) => {
                 props.setProduits(response.data.produits);
-                setLoading(false)
                 handleCloseDialog()
+
             }).catch((error) => {
                 console.log(error);
             })
-        })
+
+        }).catch(err=>toast.error(err.data.msg))
     }
 
 

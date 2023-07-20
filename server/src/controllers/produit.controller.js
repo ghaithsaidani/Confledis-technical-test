@@ -44,7 +44,7 @@ class ProduitController{
             const product=await Produit.findById(req.params.id).exec();
             product.set(req.body);
             await product.save();
-            return res.json({ success: true, msg: 'mise a jour du produit avec succes' });
+            return res.json({ success: true, msg: 'produit modifié' });
         } catch (error) {
             res.status(400).json({ success: false, msg: "echec de mise a jour du produit" });
         }
@@ -58,7 +58,7 @@ class ProduitController{
             const DIR = `../client/public/uploads/${imgId}`;
             await Produit.findByIdAndDelete(req.params.id);
             fs.unlinkSync(DIR);
-            return res.json({ success: true, msg: 'suppression du produit avec succes' });
+            return res.json({ success: true, msg: 'produit supprimé' });
         } catch (error) {
             res.status(400).json({ success: false, msg: "echec de suppression du produit" });
         }

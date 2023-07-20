@@ -12,6 +12,7 @@ import {useCallback, useEffect, useState} from "react";
 import '../../styles/dialog.modules.scss'
 import {LoadingButton} from "@mui/lab";
 import {getAll, getOne, modify} from "../../services/produit.service.tsx";
+import {toast} from "react-toastify";
 
 export const ModifyProduct = (props: any) => {
     const theme = useTheme();
@@ -93,15 +94,17 @@ export const ModifyProduct = (props: any) => {
         formData.append('prix', state.prix.toString())
         formData.append('quantite', state.quantite.toString())
         formData.append('img', state.image)
-        modify(props._id,formData).then(() => {
+        modify(props._id,formData).then((res) => {
+            setLoading(false)
+            toast.success(res.data.msg)
             getAll().then((response) => {
                 props.setProduits(response.data.produits);
-                setLoading(false)
+
                 props.handleClose()
             }).catch((error) => {
                 console.log(error);
             })
-        })
+        }).catch(err=>toast.error(err.data.msg))
 
     }
 

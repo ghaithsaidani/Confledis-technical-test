@@ -13,6 +13,7 @@ import { useState} from "react";
 import '../../styles/dialog.modules.scss'
 import {add, getAll} from "../../services/produit.service.tsx";
 import {LoadingButton} from "@mui/lab";
+import {toast} from "react-toastify";
 
 export const AddProduct = (props: any) => {
     const theme = useTheme();
@@ -32,7 +33,6 @@ export const AddProduct = (props: any) => {
                 ...state,
                 [evt.target.name]: value,
             });
-            console.log(state)
         }else{
             setState({
                 ...state,
@@ -50,16 +50,17 @@ export const AddProduct = (props: any) => {
         formData.append('quantite', state.quantite.toString())
         formData.append('img', state.image)
 
-        add(formData).then(() => {
+        add(formData).then((response) => {
             setLoading(false)
+            toast.success(response.data.msg);
             getAll().then((response) => {
                 props.setProduits(response.data.produits);
+
             }).catch((error) => {
                 console.log(error);
             })
             props.handleClose()
-
-        })
+        }).catch((error)=>toast.error(error.data.msg))
 
     }
 
