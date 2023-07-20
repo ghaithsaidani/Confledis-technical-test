@@ -6,7 +6,7 @@ import {AddProduct} from "../components/add-product/AddProduct.tsx";
 import {MdOutlineLibraryAdd} from "react-icons/md";
 import {CardsSwiper} from "../components/CardsSwiper.tsx";
 import Card from '../models/Card'
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Main = () => {
@@ -45,7 +45,6 @@ export const Main = () => {
     }
 
     useEffect(() => {
-        toast.success("hello")
         searchRef==="" ? getAllProducts() :rechercher(searchRef)
     }, [searchRef]);
 
