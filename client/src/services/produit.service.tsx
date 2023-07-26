@@ -8,7 +8,7 @@ const Config=axios.create({
         'Content-Type': 'multipart/form-data'
     }
 });
-export const getAll = () : Promise<any> => {
+export const getAll = () => {
     return Config.get('/getall')
 }
 
@@ -24,10 +24,10 @@ export const search = (nom:string)  =>{
     return Config.get( `/recherche/${encodeURIComponent(nom.trim())}`)
 }
 
-export const Delete =(id:string) : Promise<any> => {
+export const Delete =(id:string)  => {
     return Config.delete(`/delete/${id}`)
 }
 
-export const getOne = (id:string) : Promise<any> => {
+export const getOne = (id:string) => {
     return Config.get(`/getone/${id}`)
 }
