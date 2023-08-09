@@ -1,0 +1,28 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file: server/.env
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - "./server/:/app/server"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    command:
+      sh -c "npm rebuild esbuild && npm run dev"
+    ports:
+      - "5173:5173"
+
+    volumes:
+      - "./client/:/app/client"
+
+    depends_on:
+      - server

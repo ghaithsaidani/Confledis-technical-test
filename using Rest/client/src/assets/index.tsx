@@ -1,0 +1,1 @@
+export {default as NikeRevelotion} from '../../public/Nike Revolution 6.webp'
